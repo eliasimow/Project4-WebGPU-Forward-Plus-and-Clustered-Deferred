@@ -21,3 +21,37 @@
 //         - Stop adding lights if the maximum number of lights is reached.
 
 //     - Store the number of lights assigned to this cluster.
+
+//add binding for camera width height and resolution:
+@group(${bindGroup_scene}) @binding(0) var<uniform> camera : CameraUniforms;
+@group(${bindGroup_scene}) @binding(1) var<storage, read> lightSet: LightSet;
+@group(${bindGroup_scene}) @binding(2) var<storage, read_write> clusterSet: ClusterSet;
+
+@compute
+@workgroup_size(${clusterWorkGroupSize})
+fn main(@builtin(global_invocation_id) globalIdx: vec3u) {
+    let clusterIdx = globalIdx.x;
+    if (clusterIdx >= clusterSet.numCluster) {
+        return;
+    }
+
+    let clusX = ${clusterX};
+    let clusY = ${clusterY};
+    let clusZ = ${clusterZ};
+
+    let x = clusterIdx % clusX;
+    let y = (clusterIdx / clusX) % clusY;
+    let z = clusterIdx / (clusX * clusY);
+
+    // TODO-2: calculate cluster bounds in view space
+    let clusterBounds = vec4f(0.0, 0.0, 0.0, 0.0); // min.x, min.y, max.x, max.y
+
+//cluster bounds 2d first, x and y:
+
+
+
+    clusterSet.clusters[clusterIdx].lightCount = 0u;
+
+
+
+}

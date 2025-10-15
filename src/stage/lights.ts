@@ -24,9 +24,13 @@ export class Lights {
 
     timeUniformBuffer: GPUBuffer;
 
+    clusterBuffer: GPUBuffer;
+
     moveLightsComputeBindGroupLayout: GPUBindGroupLayout;
     moveLightsComputeBindGroup: GPUBindGroup;
     moveLightsComputePipeline: GPUComputePipeline;
+
+    clusterArray: Float32Array;
 
     // TODO-2: add layouts, pipelines, textures, etc. needed for light clustering here
 
@@ -94,6 +98,12 @@ export class Lights {
         });
 
         // TODO-2: initialize layouts, pipelines, textures, etc. needed for light clustering here
+        this.clusterArray = new Float32Array(shaders.constants.clusterX * shaders.constants.clusterY * shaders.constants.clusterZ * (shaders.constants.maxLightsPerCluster));
+        this.clusterBuffer = device.createBuffer({
+            label: "cluster buffer",
+            size: 4,
+            usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
+        });
     }
 
     private populateLightsBuffer() {

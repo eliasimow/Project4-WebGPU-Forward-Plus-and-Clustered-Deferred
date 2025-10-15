@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\renderers",
+    "\\src\\shaders",
+    "\\src\\stage"
+  ],
+  "SelectedNode": "\\src\\shaders\\common.wgsl",
+  "PreviewInSolutionExplorer": false
+}
