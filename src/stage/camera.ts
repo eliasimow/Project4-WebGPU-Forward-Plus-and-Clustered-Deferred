@@ -3,13 +3,14 @@ import { toRadians } from "../math_util";
 import { device, canvas, fovYDegrees, aspectRatio } from "../renderer";
 
 class CameraUniforms {
-    readonly buffer = new ArrayBuffer(144);
+    readonly buffer = new ArrayBuffer(208); // 16*4 + 16*4 + 4*6 + 16*4 = 208 bytes
     private readonly floatView = new Float32Array(this.buffer);
     private readonly inverseView = new Float32Array(this.buffer, 64, 16);
     private readonly widthView = new Float32Array(this.buffer, 128, 1);
     private readonly heightView = new Float32Array(this.buffer, 132, 1);
     private readonly nearView = new Float32Array(this.buffer, 136, 1);
     private readonly farView = new Float32Array(this.buffer, 140, 1);
+    private readonly viewOnlyView = new Float32Array(this.buffer, 144, 16);
 
 
     set viewProjMat(mat: Float32Array) {
@@ -33,6 +34,11 @@ class CameraUniforms {
     set farPlane(far: number) {
         this.farView[0] = far;
     }
+
+    set viewMat(mat: Float32Array) {
+        this.viewOnlyView.set(mat.subarray(0, 16), 0);
+    }
+
 }
 
 export class Camera {
@@ -170,7 +176,8 @@ export class Camera {
         this.uniforms.viewProjMat = viewProjMat;
         // TODO-2: write to extra buffers needed for light clustering here
         this.uniforms.inverseProjection = mat4.invert(this.projMat);
-        
+        this.uniforms.viewMat = viewMat;
+
         // TODO-1.1: upload `this.uniforms.buffer` (host side) to `this.uniformsBuffer` (device side)
         // check `lights.ts` for examples of using `device.queue.writeBuffer()`
         device.queue.writeBuffer(this.uniformsBuffer, 0, this.uniforms.buffer);

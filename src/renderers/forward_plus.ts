@@ -110,25 +110,6 @@ export class ForwardPlusRenderer extends renderer.Renderer {
            const canvasTextureView = renderer.context.getCurrentTexture().createView();
    
             this.lights.doLightClustering(encoder);
-// const computePass = encoder.beginComputePass({
-//             label: "cluster light assignment pass"
-//         });
-
-        // Bind the compute pipeline that runs your clustering WGSL shader
- //       computePass.setPipeline(this.clusterComputePipeline);
-
-        // Bind resources it needs:
-        //  - camera params (view, proj, inverse matrices)
-        //  - light buffer
-        //  - cluster buffer (as writable storage)
-        // computePass.setBindGroup(0, this.clusterComputeBindGroup);
-
-        // // Dispatch enough workgroups to cover all clusters in 3D
-        // // Example: clusterX × clusterY × clusterZ threads total
-        // const { clusterX, clusterY, clusterZ } = shaders.constants;
-        // computePass.dispatchWorkgroups(clusterX, clusterY, clusterZ);
-
-        // computePass.end();
 
            const renderPass = encoder.beginRenderPass({
                label: "forward plus render pass",

@@ -24,6 +24,12 @@ fn lineIntersectionToZPlane(A: vec3<f32>, B: vec3<f32>, zDistance: f32) -> vec3<
     return result;
 }
 
+fn testSphereAABB(Min: vec3f, Max: vec3f, sphereCenter: vec3f, radius: f32) -> bool {
+    let dist = max(vec3f(0, 0, 0), max(Min - sphereCenter, sphereCenter - Max));
+    let distSq = dot(dist, dist);
+    return distSq < radius * radius;
+}
+
 @group(${bindGroup_scene}) @binding(0) var<uniform> camera: CameraUniforms;
 @group(${bindGroup_scene}) @binding(1) var<storage, read> lightSet: LightSet;
 @group(${bindGroup_scene}) @binding(2) var<storage, read_write> clusterSet: ClusterSet;
@@ -89,13 +95,12 @@ fn main(@builtin(global_invocation_id) globalIdx: vec3<u32>) {
     var lightCount: u32 = 0u;
     for (var lightIdx: u32 = 0u; lightIdx < lightSet.numLights; lightIdx++) {
         let light = lightSet.lights[lightIdx];
-        let lightPosView: vec3<f32> = (camera.viewProjMat * vec4<f32>(light.pos, 1.0)).xyz;
+        let lightPosView: vec3<f32> = (camera.viewMat * vec4<f32>(light.pos, 1.0)).xyz;
         let clamped: vec3<f32> = clamp(lightPosView, minPointAABB, maxPointAABB);
         let dist: f32 = length(clamped - lightPosView);
-
-        if (dist < f32(${lightRadius}) && lightCount < ${maxLightsPerCluster}u) {
+        if (testSphereAABB(minPointAABB, maxPointAABB, (camera.viewProjMat * vec4f(light.pos, 1.0)).xyz, 16)){
             clusterSet.lightsPerCluster[clusterIdx].lights[lightCount] = lightIdx;
-            lightCount = lightCount + 1u;
+            lightCount++;
         }
     }
     clusterSet.lightsPerCluster[clusterIdx].numLights = lightCount;

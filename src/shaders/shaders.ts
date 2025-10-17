@@ -27,13 +27,14 @@ export const constants = {
     bindGroup_scene: 0,
     bindGroup_model: 1,
     bindGroup_material: 2,
+    bindGroup_GBUFFER: 3,
 
     moveLightsWorkgroupSize: 128,
     clusterWorkGroupSize: 128,
     lightRadius: 2,
-    clusterX: 16,
+    clusterX: 10,
     clusterY: 10,
-    clusterZ: 30,
+    clusterZ: 200,
     maxLightsPerCluster: 511,
 };
 

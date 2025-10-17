@@ -50,47 +50,43 @@ struct FragmentInput
 @fragment
 fn main(in: FragmentInput) -> @location(0) vec4f
 {
-    let clusX: u32 = ${clusterX}u;
-    let clusY: u32 = ${clusterY}u;
-    let clusZ: u32 = ${clusterZ}u;
-
-    let viewSpacePos = screen2View(in.fragPos);
-
-    let clusterWidth: f32 = camera.width / f32(clusX);
-    let clusterHeight: f32 = camera.height / f32(clusY);
-
-    let x: u32 = u32(in.fragPos.x / clusterWidth);
-    let y: u32 = u32(in.fragPos.y / clusterHeight);
-    let z = u32(clamp(log(in.fragPos.z / in.fragPos.w) * ${clusterZ} / log(camera.far / camera.near) - ${clusterZ} * log(camera.near) / log(camera.far/camera.near), 0, f32(clusZ-1u)));
-
-
-    // Convert NDC [-1,1] to screen coordinates [0, clusX/clusY]
-    // let x: u32 = u32(clamp((in.fragPos.x / camera.width) * f32(clusX), 0.0, f32(clusX - 1u)));
-    // let y: u32 = u32(clamp((in.fragPos.y / camera.height) * f32(clusY), 0.0, f32(clusY - 1u)));
+    let clusX: f32 = f32(${clusterX}u);
+    let clusY: f32 = f32(${clusterY}u);
+    let clusZ: f32 = f32(${clusterZ}u);
 
     let diffuseColor = textureSample(diffuseTex, diffuseTexSampler, in.uv);
     if (diffuseColor.a < 0.5f) {
         discard;
     }
 
+    let viewPos = camera.viewMat * vec4f(in.pos, 1.0);    
+    let clusterIdxX = u32(in.fragPos.x / camera.width * clusX);
+    let clusterIdxY = u32(in.fragPos.y / camera.height * clusY);
+
+let clusterIdxZ = u32(clamp(
+    (log(-viewPos.z) - log(camera.near)) / (log(camera.far) - log(camera.near)) * f32(clusZ),
+    0.0,
+    f32(clusZ - 1)
+));
+
+// if((log(-viewPos.z) - log(camera.near)) / (log(camera.far) - log(camera.near)) * f32(clusZ) < 1.0){
+//     return vec4f(1.0,0.0,0.0,1.0);
+
+// }
+
+    let clusterIdx = clusterIdxX + clusterIdxY * u32(clusX) + clusterIdxZ * u32(clusX * clusY);
 
     var totalLightContrib = vec3f(0, 0, 0);
+    let clustNumLights = u32(clusterSet.lightsPerCluster[clusterIdx].numLights);
 
-    let clusterIdx: u32 = x + y * clusX + z * (clusX * clusY);
-    //check if x,y,z are in range of determined cluster's min and max. if not draw debug purple:
-    let min = clusterSet.lightsPerCluster[clusterIdx].min;
-    let max = clusterSet.lightsPerCluster[clusterIdx].max;
-    if (viewSpacePos.x < min.x){
-        return vec4(1,0,1,1);
-    }
-
-
-    for (var cLightIdx = 0u; cLightIdx < clusterSet.lightsPerCluster[clusterIdx].numLights; cLightIdx = cLightIdx + 1u) {
-        let light = lightSet.lights[clusterSet.lightsPerCluster[clusterIdx].lights[cLightIdx]];
+    for (var i = 0u; i < clustNumLights; i++) {
+        let lightIndex = clusterSet.lightsPerCluster[clusterIdx].lights[i];
+        let light = lightSet.lights[lightIndex];
         totalLightContrib += calculateLightContrib(light, in.pos, normalize(in.nor));
     }
 
     var finalColor = diffuseColor.rgb * totalLightContrib;
-    return vec4(finalColor, 1);
-   // return vec4(f32(x) / f32(clusX), f32(y) / f32(clusY), f32(z) / f32(clusZ), 1);
+    let clusterColor = vec3f(f32(clusterIdxX)/clusX,f32(clusterIdxY)/clusY, f32(clusterIdxZ)/clusZ);
+ //   return vec4f(clusterColor, 1.0);    
+    return vec4f(finalColor, 1.0);
 }
