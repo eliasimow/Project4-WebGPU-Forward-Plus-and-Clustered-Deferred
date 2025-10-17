@@ -37,13 +37,28 @@ Lastly, Deferred shading pushes the optimization even further by completely sepa
 
 I expected Clustered Deferred to be the superior approach to rendering this scene, as it saves a good bit of time in overhead for unnecessary fragment shading. When I began to profile though,  I was surprised by the magnitude of that difference. Deferred crushes its peers consistently at any light count! This is a result of a linear optimization effect: the buried fragments that deferred skips lighting are necessary costs for naive and Forward+, and the cost of these fragments only goes up as the count of scene lights increases. On the other hand, in very simple scenes with just a few lights, Forward+ actually held its own. The deferred path carries a lot of extra overhead, including writing out multiple G-buffers and additional shader calls. For lightweight – or lightless! – scenes, this meant that my Naive and Forward+ could actually outperform my Deferred. 
 
+| Light Count | Naive       | Forward Plus | Deferred    |
+|------------:|------------:|-------------:|------------:|
+| 200         | 21.73913043 MS | 18.18181818 MS  | 6.944444444 MS |
+| 400         | 43.47826087 MS| 34.48275862 MS  | 7.352941176 MS |
+| 800         | 83.33333333 MS| 55.55555556 MS  | 14.28571429 MS |
+| 1600        | 251.23 MS      | 125.2 MS        | 27.77777778 MS |
+
 As I began profiling, I realized there was some unnecessary overhead in my compute clustering stage: two compute shaders for calculating cluster grid bounds and lights located within the bounds separately, when they could be optimized into one! It’s worth noting that this isn’t necessarily a strict optimization; when the camera is stationary, we really only need to calculate our cluster grid bounds once. But because my initial implementation was calling both compute shaders on every draw frame, the removal of an extra compute call & unnecessary cluster buffer parameters’ min and max aabb, this ended up being a flat improvement to performance of about ~2fps for Forward+ with 500 lights. All other performance tests here were made with this enhancement.
 
 One notable downside to the Forward+ and Deferred approach is the cluster grid box artifacts. This is especially noticeable when the sum lights in the scene are increased. Because we hit the 255 limit on lights per cluster rather quickly, some lights that should affect our cluster grid are ignored, and the variance of which lights are ignored from cell to cell is what produces the artifact. Now, there are several things we could do to fix this in later work. The best would be to produce some single array that contains all cluster to light assignments, such that clusters can use variable space, and even be ignored when their light count is zero. Other bandaid solutions, like increasing the limit, have a noticeable impact on performance. 
 
 <img width="600" height="371" alt="Execution Time (MS) vs  Max Cluster Lights" src="https://github.com/user-attachments/assets/d480478f-6ddc-437d-9528-1b897c37b8ab" />
 
+| Max Cluster Lights | 123  | 255  | 511  | 1023  |
+|------------------:|:----:|:----:|:----:|:-----:|
+| Execution Time    | 52.63 ms | 58.82 ms | 76.92 ms | 109.65 ms |
+
+
 For the purposes of this paper, I’ve limited the count to 255 as a tradeoff between visuals and performance.
+
+
+<img width="600" height="371" alt="Forward+ Cluster Square Grid Size VS Execution Time" src="https://github.com/user-attachments/assets/ac945812-37c7-42e8-b104-4160d9fa2bcd" />
 
 
 ### Credits
