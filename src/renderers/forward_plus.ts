@@ -108,7 +108,6 @@ export class ForwardPlusRenderer extends renderer.Renderer {
    override draw() {
            const encoder = renderer.device.createCommandEncoder();
            const canvasTextureView = renderer.context.getCurrentTexture().createView();
-   
             this.lights.doLightClustering(encoder);
 
            const renderPass = encoder.beginRenderPass({

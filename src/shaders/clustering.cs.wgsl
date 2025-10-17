@@ -102,12 +102,10 @@ let tileFar: f32 = tileNear + clusterDepth;        // The far depth is just the 
         let lightPosView: vec3<f32> = (camera.viewMat * vec4<f32>(light.pos, 1.0)).xyz;
         let clamped: vec3<f32> = clamp(lightPosView, minPointAABB, maxPointAABB);
         let dist: f32 = length(clamped - lightPosView);
-        if (dist < 4.0) {
+        if (dist < 2.0) {
             clusterSet.lightsPerCluster[clusterIdx].lights[lightCount] = lightIdx;
             lightCount++;
         }
     }
     clusterSet.lightsPerCluster[clusterIdx].numLights = lightCount;
-    clusterSet.lightsPerCluster[clusterIdx].min = minPointAABB;
-    clusterSet.lightsPerCluster[clusterIdx].max = maxPointAABB;
 }
