@@ -60,6 +60,15 @@ For the purposes of this paper, I’ve limited the count to 255 as a tradeoff be
 
 <img width="600" height="371" alt="Forward+ Cluster Square Grid Size VS Execution Time" src="https://github.com/user-attachments/assets/ac945812-37c7-42e8-b104-4160d9fa2bcd" />
 
+When I experimented with increasing the cluster grid resolution, there was an initial performance boost. This makes sense because with a finer grid, each cluster contains fewer lights on average, reducing the number of light evaluations per fragment and improving throughput. For example, going from a coarse 5×5×5 grid to an 10×10×10 grid yielded a noticeable reduction in per-fragment light checks. However, this benefit quickly plateaus around a grid size of 10×10×10. Beyond this point, further increasing the grid resolution shows minimal performance gain, and in some cases can even degrade performance slightly. There are a few key trade-offs driving this behavior:
+
+- Compute overhead vs. light distribution: A larger grid requires more clusters to be computed on the GPU, which increases the overhead of the compute stage. At some point, the savings from having fewer lights per cluster are offset by the extra work needed to manage and populate the additional clusters.
+
+- Memory and bandwidth constraints: Each cluster has its own list of lights, and increasing grid resolution multiplies the total number of clusters. This increases memory usage and may also stress my GPU memory bandwidth, especially when reading/writing cluster light lists in compute shaders.
+
+- Diminishing returns from light culling: As the grid gets finer, each cluster contains fewer lights, but if most clusters already contain only a few lights, splitting them further doesn’t significantly reduce fragment shader work. Essentially, once the average light count per cluster is small, the per-fragment evaluation cost stops decreasing.
+
+As such, I found the sweet spot for these tradeoffs to be about 10x10x10 grid size, and used that as my default for the other performance tests.
 
 ### Credits
 
