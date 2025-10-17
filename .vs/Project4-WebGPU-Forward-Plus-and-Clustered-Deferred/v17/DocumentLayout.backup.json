@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\naive.fs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\shaders\\naive.fs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\stage\\lights.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\stage\\lights.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
@@ -29,6 +25,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\move_lights.cs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\shaders\\move_lights.cs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\naive.fs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\shaders\\naive.fs.wgsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\renderers\\naive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
@@ -58,11 +58,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "naive.fs.wgsl",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\naive.fs.wgsl",
               "RelativeDocumentMoniker": "src\\shaders\\naive.fs.wgsl",
@@ -75,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "move_lights.cs.wgsl",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\move_lights.cs.wgsl",
               "RelativeDocumentMoniker": "src\\shaders\\move_lights.cs.wgsl",
@@ -83,24 +83,25 @@
               "RelativeToolTip": "src\\shaders\\move_lights.cs.wgsl",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-15T17:47:42.394Z"
+              "WhenOpened": "2025-10-15T17:47:42.394Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "lights.ts",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\stage\\lights.ts",
               "RelativeDocumentMoniker": "src\\stage\\lights.ts",
               "ToolTip": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\stage\\lights.ts",
               "RelativeToolTip": "src\\stage\\lights.ts",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAowGQAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAowGQAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-10-15T00:27:07.185Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "shaders.ts",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\shaders.ts",
               "RelativeDocumentMoniker": "src\\shaders\\shaders.ts",
@@ -108,11 +109,12 @@
               "RelativeToolTip": "src\\shaders\\shaders.ts",
               "ViewState": "AgIAABEAAAAAAAAAAAAWwCEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-15T17:31:31.057Z"
+              "WhenOpened": "2025-10-15T17:31:31.057Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "clustering.cs.wgsl",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\clustering.cs.wgsl",
               "RelativeDocumentMoniker": "src\\shaders\\clustering.cs.wgsl",
@@ -120,11 +122,12 @@
               "RelativeToolTip": "src\\shaders\\clustering.cs.wgsl",
               "ViewState": "AgIAAAwAAAAAAAAAAAAYwCUAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-15T17:23:50.673Z"
+              "WhenOpened": "2025-10-15T17:23:50.673Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "forward_plus.ts",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\renderers\\forward_plus.ts",
               "RelativeDocumentMoniker": "src\\renderers\\forward_plus.ts",
@@ -132,11 +135,12 @@
               "RelativeToolTip": "src\\renderers\\forward_plus.ts",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-15T17:17:38.057Z"
+              "WhenOpened": "2025-10-15T17:17:38.057Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "common.wgsl",
               "DocumentMoniker": "C:\\Users\\elias\\Documents\\GitHub\\Project4-WebGPU-Forward-Plus-and-Clustered-Deferred\\src\\shaders\\common.wgsl",
               "RelativeDocumentMoniker": "src\\shaders\\common.wgsl",
@@ -144,7 +148,8 @@
               "RelativeToolTip": "src\\shaders\\common.wgsl",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-15T03:27:19.717Z"
+              "WhenOpened": "2025-10-15T03:27:19.717Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -160,7 +165,8 @@
               "RelativeToolTip": "src\\shaders\\forward_plus.fs.wgsl",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-15T17:24:53.373Z"
+              "WhenOpened": "2025-10-15T17:24:53.373Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -172,7 +178,8 @@
               "RelativeToolTip": "src\\shaders\\naive.vs.wgsl",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-15T03:27:37.133Z"
+              "WhenOpened": "2025-10-15T03:27:37.133Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -184,7 +191,8 @@
               "RelativeToolTip": "src\\stage\\camera.ts",
               "ViewState": "AgIAABUAAAAAAAAAAAAowCYAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-14T20:26:23.074Z"
+              "WhenOpened": "2025-10-14T20:26:23.074Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -196,7 +204,8 @@
               "RelativeToolTip": "src\\renderers\\naive.ts",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwBUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-10-14T20:26:06.093Z"
+              "WhenOpened": "2025-10-14T20:26:06.093Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -208,7 +217,8 @@
               "RelativeToolTip": "INSTRUCTIONS.md",
               "ViewState": "AgIAAEUAAAAAAAAAAAAswFYAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-10-14T20:26:14.901Z"
+              "WhenOpened": "2025-10-14T20:26:14.901Z",
+              "EditorCaption": ""
             }
           ]
         }

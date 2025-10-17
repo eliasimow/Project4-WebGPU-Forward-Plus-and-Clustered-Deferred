@@ -32,10 +32,6 @@ export class NaiveRenderer extends renderer.Renderer {
             ]
         });
 
-        console.log("Camera uniforms buffer:", this.camera.uniformsBuffer);
-        console.log("Light set storage buffer:", this.lights.lightSetStorageBuffer);
-
-
         this.sceneUniformsBindGroup = renderer.device.createBindGroup({
             label: "scene uniforms bind group",
             layout: this.sceneUniformsBindGroupLayout,

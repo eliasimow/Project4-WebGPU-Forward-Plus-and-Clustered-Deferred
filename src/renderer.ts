@@ -105,7 +105,6 @@ export abstract class Renderer {
     protected scene: Scene;
     protected lights: Lights;
     protected camera: Camera;
-
     protected stats: Stats;
 
     private prevTime: number = 0;

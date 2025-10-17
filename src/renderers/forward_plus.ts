@@ -14,23 +14,17 @@ export class ForwardPlusRenderer extends renderer.Renderer {
 
     pipeline: GPURenderPipeline;
 
-    clusterBuffer: GPUBuffer;
-
-
     constructor(stage: Stage) {
         super(stage); 
 
-        this.clusterBuffer = renderer.device.createBuffer({
-            label: "cluster buffer",
-            size: 4 * shaders.constants.maxLightsPerCluster * shaders.constants.clusterX * shaders.constants.clusterY * shaders.constants.clusterZ,
-            usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
-        });
+
+
                 this.sceneUniformsBindGroupLayout = renderer.device.createBindGroupLayout({
                     label: "scene uniforms bind group layout",
                     entries: [
                         { //camera 
                             binding: 0,
-                            visibility: GPUShaderStage.VERTEX, 
+                            visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT, 
                             buffer: { type: "uniform" }
                         },
                         { // lightSet
@@ -38,10 +32,10 @@ export class ForwardPlusRenderer extends renderer.Renderer {
                             visibility: GPUShaderStage.FRAGMENT,
                             buffer: { type: "read-only-storage" }
                         },
-                        { // extra uniforms for clustering
+                        {
                             binding: 2,
-                            visibility: GPUShaderStage.COMPUTE,
-                            buffer: { type: "storage" }
+                            visibility: GPUShaderStage.FRAGMENT,
+                            buffer: { type: "read-only-storage"}
                         }
                     ]
                 });
@@ -60,7 +54,7 @@ export class ForwardPlusRenderer extends renderer.Renderer {
                         },
                         {
                             binding: 2,
-                            resource: { buffer: this.clusterBuffer }
+                            resource: { buffer: this.lights.clusterBuffer }
                         }
                     ]
                 });
@@ -96,7 +90,7 @@ export class ForwardPlusRenderer extends renderer.Renderer {
                     fragment: {
                         module: renderer.device.createShaderModule({
                             label: "forward+ frag shader",
-                            code: shaders.naiveFragSrc,
+                            code: shaders.forwardPlusFragSrc,
                         }),
                         targets: [
                             {
@@ -115,7 +109,27 @@ export class ForwardPlusRenderer extends renderer.Renderer {
            const encoder = renderer.device.createCommandEncoder();
            const canvasTextureView = renderer.context.getCurrentTexture().createView();
    
-            //run clustering compute shader:
+            this.lights.doLightClustering(encoder);
+// const computePass = encoder.beginComputePass({
+//             label: "cluster light assignment pass"
+//         });
+
+        // Bind the compute pipeline that runs your clustering WGSL shader
+ //       computePass.setPipeline(this.clusterComputePipeline);
+
+        // Bind resources it needs:
+        //  - camera params (view, proj, inverse matrices)
+        //  - light buffer
+        //  - cluster buffer (as writable storage)
+        // computePass.setBindGroup(0, this.clusterComputeBindGroup);
+
+        // // Dispatch enough workgroups to cover all clusters in 3D
+        // // Example: clusterX × clusterY × clusterZ threads total
+        // const { clusterX, clusterY, clusterZ } = shaders.constants;
+        // computePass.dispatchWorkgroups(clusterX, clusterY, clusterZ);
+
+        // computePass.end();
+
            const renderPass = encoder.beginRenderPass({
                label: "forward plus render pass",
                colorAttachments: [

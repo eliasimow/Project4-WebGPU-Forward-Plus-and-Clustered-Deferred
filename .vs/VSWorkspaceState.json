@@ -6,6 +6,6 @@
     "\\src\\shaders",
     "\\src\\stage"
   ],
-  "SelectedNode": "\\src\\shaders\\common.wgsl",
+  "SelectedNode": "\\src\\shaders\\naive.fs.wgsl",
   "PreviewInSolutionExplorer": false
 }

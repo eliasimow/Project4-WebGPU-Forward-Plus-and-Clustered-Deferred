@@ -12,12 +12,12 @@ struct LightSet {
 
 struct Cluster {
     numLights: u32,
+    min: vec3f,
+    max: vec3f,
     lights: array<u32, ${maxLightsPerCluster}>
 }
 
-// TODO-2: you may want to create a ClusterSet struct similar to LightSet
 struct ClusterSet {
-    numCluster: u32,
     lightsPerCluster: array<Cluster>
 }
 
@@ -26,6 +26,7 @@ struct ClusterSet {
 struct CameraUniforms {
     // TODO-1.3: add an entry for the view proj mat (of type mat4x4f)
     viewProjMat : mat4x4f,
+    inverseProjection : mat4x4f,
     width: f32,
     height: f32,
     near: f32,
