@@ -63,11 +63,19 @@ fn main(in: FragmentInput) -> @location(0) vec4f
     let clusterIdxX = u32(in.fragPos.x / camera.width * clusX);
     let clusterIdxY = u32(in.fragPos.y / camera.height * clusY);
 
-let clusterIdxZ = u32(clamp(
-    (log(-viewPos.z) - log(camera.near)) / (log(camera.far) - log(camera.near)) * f32(clusZ),
-    0.0,
-    f32(clusZ - 1)
-));
+// let zNormalized = (log(-viewPos.z) - log(camera.near)) / (log(camera.far) - log(camera.near));
+// let clusterIdxZ = u32(clamp(zNormalized * f32(clusZ), 0.0, f32(clusZ - 1)));
+
+    let tileNear: f32 = camera.near + f32(0u) * (camera.far - camera.near) / f32(clusZ);
+    let tileFar:  f32 = camera.near + f32(1u) * (camera.far - camera.near) / f32(clusZ);
+
+    let clusterDepth: f32 = (camera.far - camera.near) / f32(clusZ);
+    let clusterIdxZ: u32 = u32(clamp(
+        (viewPos.z - camera.near) / clusterDepth,
+        0.0,
+        f32(clusZ - 1)
+    ));
+
 
 // if((log(-viewPos.z) - log(camera.near)) / (log(camera.far) - log(camera.near)) * f32(clusZ) < 1.0){
 //     return vec4f(1.0,0.0,0.0,1.0);
@@ -79,6 +87,12 @@ let clusterIdxZ = u32(clamp(
     var totalLightContrib = vec3f(0, 0, 0);
     let clustNumLights = u32(clusterSet.lightsPerCluster[clusterIdx].numLights);
 
+// if(clustNumLights == 0u){
+//     return vec4f(1.0,0.0,0.0,1.0);
+// }else{
+//     return vec4f(0.0,1.0,0.0,1.0);
+// }
+
     for (var i = 0u; i < clustNumLights; i++) {
         let lightIndex = clusterSet.lightsPerCluster[clusterIdx].lights[i];
         let light = lightSet.lights[lightIndex];
@@ -87,6 +101,5 @@ let clusterIdxZ = u32(clamp(
 
     var finalColor = diffuseColor.rgb * totalLightContrib;
     let clusterColor = vec3f(f32(clusterIdxX)/clusX,f32(clusterIdxY)/clusY, f32(clusterIdxZ)/clusZ);
- //   return vec4f(clusterColor, 1.0);    
     return vec4f(finalColor, 1.0);
 }

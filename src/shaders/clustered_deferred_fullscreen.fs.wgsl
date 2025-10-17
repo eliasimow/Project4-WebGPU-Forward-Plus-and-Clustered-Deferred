@@ -31,14 +31,19 @@ fn main(in: FragmentInput) -> @location(0) vec4f {
     let clusterIdxX = u32(in.fragPos.x / camera.width  * clusX);
     let clusterIdxY = u32(in.fragPos.y / camera.height * clusY);
 
-    // Transform world position to view space for depth clustering
-    let viewZ = (camera.viewMat * vec4f(worldPos, 1.0)).z;
+    let viewPos = camera.viewMat * vec4f(worldPos, 1.0);
 
-    let clusterIdxZ = u32(clamp(
-        (log(-viewZ) - log(camera.near)) / (log(camera.far) - log(camera.near)) * clusZ,
+    // Transform world position to view space for depth clustering
+    let tileNear: f32 = camera.near + f32(0u) * (camera.far - camera.near) / f32(clusZ);
+    let tileFar:  f32 = camera.near + f32(1u) * (camera.far - camera.near) / f32(clusZ);
+
+    let clusterDepth: f32 = (camera.far - camera.near) / f32(clusZ);
+    let clusterIdxZ: u32 = u32(clamp(
+        (viewPos.z - camera.near) / clusterDepth,
         0.0,
-        clusZ - 1.0
+        f32(clusZ - 1)
     ));
+
 
     let clusterIdx = clusterIdxX +
                      clusterIdxY * u32(clusX) +

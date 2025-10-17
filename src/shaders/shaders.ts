@@ -30,11 +30,11 @@ export const constants = {
     bindGroup_GBUFFER: 3,
 
     moveLightsWorkgroupSize: 128,
-    clusterWorkGroupSize: 128,
+    clusterWorkGroupSize: 256,
     lightRadius: 2,
     clusterX: 10,
     clusterY: 10,
-    clusterZ: 200,
+    clusterZ: 40,
     maxLightsPerCluster: 511,
 };
 

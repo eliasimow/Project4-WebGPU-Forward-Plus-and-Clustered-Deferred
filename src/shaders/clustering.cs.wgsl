@@ -61,8 +61,12 @@ fn main(@builtin(global_invocation_id) globalIdx: vec3<u32>) {
     let clusterHeight: f32 = h / f32(clusY);
     let clusterDepth: f32 = (far - near) / f32(clusZ);
 
-    let tileNear: f32 = -near * pow(far / near, f32(z) / f32(clusZ));
-    let tileFar:  f32 = -near * pow(far / near, f32(z + 1u) / f32(clusZ));
+    // let tileNear: f32 = -near * pow(far / near, f32(z) / f32(clusZ));
+    // let tileFar:  f32 = -near * pow(far / near, f32(z + 1u) / f32(clusZ));
+
+let tileNear: f32 = near + f32(z) * clusterDepth;  // Linear interpolation to get the near depth of the current cluster
+let tileFar: f32 = tileNear + clusterDepth;        // The far depth is just the near depth + the cluster's depth range
+
 
     let eyePos: vec3<f32> = vec3<f32>(0.0, 0.0, 0.0);
 
@@ -98,7 +102,7 @@ fn main(@builtin(global_invocation_id) globalIdx: vec3<u32>) {
         let lightPosView: vec3<f32> = (camera.viewMat * vec4<f32>(light.pos, 1.0)).xyz;
         let clamped: vec3<f32> = clamp(lightPosView, minPointAABB, maxPointAABB);
         let dist: f32 = length(clamped - lightPosView);
-        if (testSphereAABB(minPointAABB, maxPointAABB, (camera.viewProjMat * vec4f(light.pos, 1.0)).xyz, 16)){
+        if (dist < 4.0) {
             clusterSet.lightsPerCluster[clusterIdx].lights[lightCount] = lightIdx;
             lightCount++;
         }
