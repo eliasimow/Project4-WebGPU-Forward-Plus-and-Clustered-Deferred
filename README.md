@@ -7,9 +7,11 @@ WebGL Forward+ and Clustered Deferred Shading
 
 ### Live Demo
 
-[![](img/thumb.png)](http://TODO.github.io/Project4-WebGPU-Forward-Plus-and-Clustered-Deferred)
+https://eliasimow.github.io/Project4-WebGPU-Forward-Plus-and-Clustered-Deferred/
 
 ### Demo Video/GIF
+
+[![](img/thumb.png)](http://TODO.github.io/Project4-WebGPU-Forward-Plus-and-Clustered-Deferred)
 
 
 https://github.com/user-attachments/assets/0a22a8a0-832d-4f36-8875-49ddd37f3a55
@@ -45,6 +47,9 @@ I expected Clustered Deferred to be the superior approach to rendering this scen
 | 1600        | 251.23 MS      | 125.2 MS        | 27.77777778 MS |
 
 As I began profiling, I realized there was some unnecessary overhead in my compute clustering stage: two compute shaders for calculating cluster grid bounds and lights located within the bounds separately, when they could be optimized into one! It’s worth noting that this isn’t necessarily a strict optimization; when the camera is stationary, we really only need to calculate our cluster grid bounds once. But because my initial implementation was calling both compute shaders on every draw frame, the removal of an extra compute call & unnecessary cluster buffer parameters’ min and max aabb, this ended up being a flat improvement to performance of about ~2fps for Forward+ with 500 lights. All other performance tests here were made with this enhancement.
+
+<img width="1916" height="897" alt="image" src="https://github.com/user-attachments/assets/7eea11d7-e343-4bff-bf3d-0424554e637c" />
+
 
 One notable downside to the Forward+ and Deferred approach is the cluster grid box artifacts. This is especially noticeable when the sum lights in the scene are increased. Because we hit the 255 limit on lights per cluster rather quickly, some lights that should affect our cluster grid are ignored, and the variance of which lights are ignored from cell to cell is what produces the artifact. Now, there are several things we could do to fix this in later work. The best would be to produce some single array that contains all cluster to light assignments, such that clusters can use variable space, and even be ignored when their light count is zero. Other bandaid solutions, like increasing the limit, have a noticeable impact on performance. 
 
