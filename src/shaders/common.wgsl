@@ -19,7 +19,7 @@ struct ClusterSet {
     lightsPerCluster: array<Cluster>
 }
 
-
+  
 
 struct CameraUniforms {
     // TODO-1.3: add an entry for the view proj mat (of type mat4x4f)
